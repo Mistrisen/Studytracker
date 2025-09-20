@@ -10,8 +10,6 @@ RESET = '\033[0m'
 WHITE = '\033[97m'
 
 LOGS_DIR = os.path.join(os.path.dirname(__file__), "Logs")
-if not os.path.exists(LOGS_DIR):
-    os.makedirs(LOGS_DIR)
 
 def log_filename():
     return os.path.join(LOGS_DIR, datetime.datetime.today().strftime('%Y-%m') + '.csv')
@@ -107,34 +105,30 @@ def stopwatch():
         print(f"{GREEN}\n･ . Studied for {int(elapsed / 60)} minutes. ✦{RESET}\n")
         t.sleep(2)
 
-def main():
-    while True:
-        os.system('cls')
-        print(f"{GREEN}- - ———:꒰ Welcome back ꒱:{RESET}")
-        print(f'\n  ⇀ {WHITE}Timer \n  ⇀ Stopwatch \n  ⇀ Statistics \n  ⇀ Log \n  ⇀ Quit {RESET}\n')
-        i = input()
-        command = i.strip().lower()
-        if "timer".startswith(command):
-            while True:
-                timer()
-                print("Would you like to start another session? (yes/no)")
-                b = input()
-                if 'no'.startswith(b.strip().lower()):
-                    os.system('cls')
-                    break
-        elif "stopwatch".startswith(command):
-            stopwatch()
-        elif "statistics".startswith(command):
-            statistics()
-        elif "log".startswith(command):
-            log_edit()
-        elif "quit".startswith(command):
-            print(f"{RED} Quitting{RESET}")
-            t.sleep(1)
-            break
-        else:
-            print(f"{RED}Not recognised, please try again{RESET}")
-            t.sleep(1)
-
-if __name__ == "__main__":
-    main()
+while True:
+    os.system('cls')
+    print(f"{GREEN}- - ———:꒰ Welcome back ꒱:{RESET}")
+    print(f'\n  ⇀ {WHITE}Timer \n  ⇀ Stopwatch \n  ⇀ Statistics \n  ⇀ Log \n  ⇀ Quit {RESET}\n')
+    i = input()
+    command = i.strip().lower()
+    if "timer".startswith(command):
+        while True:
+            timer()
+            print("Would you like to start another session? (yes/no)")
+            b = input()
+            if 'no'.startswith(b.strip().lower()):
+                os.system('cls')
+                break
+    elif "stopwatch".startswith(command):
+        stopwatch()
+    elif "statistics".startswith(command):
+        statistics()
+    elif "log".startswith(command):
+        log_edit()
+    elif "quit".startswith(command):
+        print(f"{RED}Quitting{RESET}")
+        t.sleep(1)
+        break
+    else:
+        print(f"{RED}Not recognised, please try again{RESET}")
+        t.sleep(1)
