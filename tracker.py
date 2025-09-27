@@ -65,18 +65,52 @@ def statistics():
     if not logs:
         print(f"{RED}No study data available.{RESET}")
         return False
+
     today = datetime.datetime.today().strftime('%Y-%m-%d')
     idx = next((i for i, entry in enumerate(logs) if entry['date'] == today), None)
     ts = int(logs[idx]['minutes']) if idx is not None else 0
     ys = int(logs[idx - 1]['minutes']) if idx not in (None, 0) else 0
-    print(f"{GREEN}You have studied for {ts // 60} hours and {ts % 60} minutes today.{RESET}")
+    print(f"{WHITE}Time studied today:{GREEN} {ts // 60} hours and {ts % 60} minutes today.{RESET}")
+
     if ts < ys:
         placeholder = RED
     else:
         placeholder = GREEN
+
     pct = round((ts / ys), 3) * 100 if ys else 100
     print(f"{placeholder}{pct:.1f}% compared to yesterday!{RESET}")
-    print("Press Enter to return.")
+
+    today_dt = datetime.datetime.today()
+    week_start = today_dt - datetime.timedelta(days=today_dt.weekday())
+    prev_week_start = week_start - datetime.timedelta(days=7)
+    prev_week_end = week_start - datetime.timedelta(days=1)
+
+    week_total = sum(
+        int(entry['minutes']) for entry in logs
+        if week_start.strftime('%Y-%m-%d') <= entry['date'] <= today_dt.strftime('%Y-%m-%d')
+    )
+
+    prev_week_total = sum(
+        int(entry['minutes']) for entry in logs
+        if prev_week_start.strftime('%Y-%m-%d') <= entry['date'] <= prev_week_end.strftime('%Y-%m-%d')
+    )
+
+    week_avg = week_total / 7
+
+    if week_total < prev_week_total:
+        placeholder = RED
+    else:
+        placeholder = GREEN
+
+    print(f"\n{WHITE}Total time studied this week: {GREEN}{week_total // 60} hours and {week_total % 60} minutes.{RESET}")
+    print(f"{WHITE}Weekly average: {placeholder}{week_avg // 60:.0f} hours {week_avg % 60:.0f} minutes studied.{RESET}")
+
+
+
+    pct_week = round((week_total / prev_week_total), 3) * 100 if prev_week_total else 100
+    print(f"{placeholder}{pct_week:.1f}% compared to last week!{RESET}")
+
+    print("\nPress Enter to return.")
     input()
     return True
 
