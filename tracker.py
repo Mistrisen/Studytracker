@@ -116,15 +116,15 @@ def statistics():
                 prev_total = get_total_time(cur, start_prev, end_prev)
                 avg_prev = prev_total / 7 if prev_total else 0
                 print(f"\n{WHITE}Week of {start_prev.strftime('%b %d')} - {end_prev.strftime('%b %d')}{RESET}")
-                display_time("Total", prev_total)
-                display_time("Average", avg_prev)
+                display_time("\tTotal", prev_total)
+                display_time("\tAverage", avg_prev)
 
         elif choice == "month":
             print(f"\n{WHITE}Monthly Stats:{RESET}")
             days_passed = today.day
             avg_month = month_total / days_passed if days_passed else 0
-            display_time("This month's total", month_total)
-            display_time("This month's average", avg_month)
+            display_time("\tThis month's total", month_total)
+            display_time("\tThis month's average", avg_month)
 
             for i in range(1, 4):
                 prev_month_end = month_start - datetime.timedelta(days=1)
