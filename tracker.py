@@ -56,12 +56,12 @@ def timer():
 
 def stopwatch():
     os.system('cls')
-    print(f"{GREEN}────✦──────── \nStarting study session..{RESET}")
+    print(f"{WHITE}────✦──────── \nStarting study session..{RESET}")
     st = t.time()
     try:
         while True:
             elapsed = t.time() - st
-            display_time("Time studied: ", elapsed)
+            print(f"\r{GREEN}{elapsed//60} minutes and {int(elapsed%60)} seconds {WHITE}studied.{RESET}", end="", flush=True)
             t.sleep(1)
     except KeyboardInterrupt:
         elapsed = t.time() - st
@@ -81,6 +81,7 @@ def log_edit():
         print(f"{RED}Invalid input.{RESET}")
 
 def statistics():
+    os.system('cls')
     today = datetime.date.today()
     today_str = today.strftime('%Y-%m-%d')
     week_start = today - datetime.timedelta(days=today.weekday())
@@ -137,6 +138,9 @@ def statistics():
                 display_time("Average", avg_prev)
                 month_start = prev_month_start
         else:
+            print("Please enter a valid input")
+            t.sleep(1)
+            statistics()
             return
     print("\nPress Enter to return.")
     input()
